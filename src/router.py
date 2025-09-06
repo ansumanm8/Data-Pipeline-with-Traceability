@@ -1,3 +1,5 @@
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 from typing import List
@@ -8,6 +10,8 @@ from fastapi.responses import JSONResponse
 from src.model import RetrieveDocInput, VectorDBDocument
 from src.service import DataIngestionService
 from src.utils import VectorDB, clean_folder, get_logger
+
+executor = ThreadPoolExecutor()
 
 base_path = Path(__file__).parent.parent
 logger = get_logger()
@@ -103,7 +107,8 @@ async def get_documents(data: RetrieveDocInput) -> List[VectorDBDocument]:
             "action": "Document retrieval started",
         }
     )
-    docs = service.retrieve_documents(query=data.query)
+    loop = asyncio.get_event_loop()
+    docs = await loop.run_in_executor(executor, service.retrieve_documents, data.query)
     return JSONResponse(
         content={
             # Explicit serialization due to customization

@@ -11,6 +11,7 @@ wheels/
 
 # tmp file
 demo_db
+local_model
 .ruff_cache
 .pytest_cache
 tmp

@@ -45,6 +45,24 @@ A FastAPI-based prototype ingestion and traceability pipeline to create and mana
 
 ---
 
+## 🚀 Load Test Results (Locust)
+
+![Load Test](./docs/load-test.png)
+
+| Metric                   | Value               |
+|--------------------------|---------------------|
+| Users                    | 1000                |
+| Hatch Rate               | 10 users/sec       |
+| Test Duration            | 5 minutes          |
+| Requests Per Second (RPS)| ~130                |
+| Avg Response Time        | 5437 ms             |
+| Failure Rate             | 0%                  |
+
+
+The app sustained 130 RPS with no errors but shows high average latency, suggesting the need for further optimization.
+
+---
+
 ## 📈 Usage
 
 - Access Swagger UI:

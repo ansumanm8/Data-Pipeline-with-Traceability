@@ -15,12 +15,17 @@ def compose_app() -> FastAPI:
     Returns:
         FastAPI: The FastAPI application instance.
     """
-    tmp_path = Path(__file__).parent.parent / "tmp"
+    base_path = Path(__file__).parent.parent
+    tmp_path = base_path / "tmp"
+    model_cache = base_path / "local_model" / "e5-small-v2"
 
     # creating temp_dir
     if not os.path.exists(tmp_path):
-        print("Temp not found creating.....")
         os.mkdir(tmp_path)
+
+    # creating model cache dir
+    if not os.path.exists(model_cache):
+        os.mkdir(model_cache)
 
     app = FastAPI()
 

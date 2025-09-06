@@ -3,6 +3,7 @@ import os
 import shutil
 import sys
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import List
 
@@ -112,10 +113,12 @@ def clean_folder(folder_path: str | Path):
             print(f"Failed to delete {item}: {e}")
 
 
+@lru_cache(maxsize=1)
 def get_embedding_model():
     if os.getenv("EMBEDDING_MODEL") == "huggingface":
         return HuggingFaceEmbeddings(
-            model_name=os.getenv("EMBEDDING_MODEL_NAME", "intfloat/e5-small-v2")
+            model_name=os.getenv("EMBEDDING_MODEL_NAME", "intfloat/e5-small-v2"),
+            cache_folder=f'{base_path / "local_model" / "e5-small-v2"}',
         )
     elif os.getenv("EMBEDDING_MODEL") == "openai":
         return OpenAIEmbeddings(
